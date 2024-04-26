@@ -150,6 +150,45 @@ class DataArguments:
         },
     )
 
+    p_max_len: Optional[int] = field(
+        default=512,
+        metadata={
+            "help": "p_max_len"
+        },
+    )
+
+    q_max_len: Optional[int] = field(
+        default=512,
+        metadata={
+            "help": "q_max_len"
+        },
+    )
+
+    encoded_save_path : str = field(
+        default='',
+        metadata={
+            "help": "encoded_save_path"
+        },
+    )
+
+    encode_num_shard : Optional[int] = field(
+        default=4,
+        metadata={
+            "help": "encode_num_shard "
+        },
+    )
+
+    encode_shard_index : Optional[int] = field(
+        default=0,
+        metadata={
+            "help": "encode_shard_index "
+        },
+    )
+
+    encode_is_qry: bool = field(
+        default=False, metadata={"help": "encode_is_qry"}
+    )
+
 
 @dataclass
 class TevatronTrainingArguments(TrainingArguments):
