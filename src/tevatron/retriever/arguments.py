@@ -71,6 +71,13 @@ class ModelArguments:
         },
     )
 
+    cache_dir : str = field(
+        default='cache_dir',
+        metadata={
+            "help": "cache_dir"
+        },
+    )
+
 
 @dataclass
 class DataArguments:
@@ -187,6 +194,13 @@ class DataArguments:
 
     encode_is_qry: bool = field(
         default=False, metadata={"help": "encode_is_qry"}
+    )
+
+    data_cache_dir : str = field(
+        default='data_cache_dir',
+        metadata={
+            "help": "data_cache_dir"
+        },
     )
 
 

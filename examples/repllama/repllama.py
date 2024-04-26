@@ -17,7 +17,7 @@ class RepLLaMA(EncoderModel):
                  untie_encoder: bool = False,
                  negatives_x_device: bool = False
                  ):
-        super().__init__(lm_q, lm_p, pooler, untie_encoder, negatives_x_device)
+        super().__init__(lm_q)
         self.config = lm_q.config
 
     def encode_passage(self, psg):
