@@ -203,6 +203,34 @@ class DataArguments:
         },
     )
 
+    encode_in_path : str = field(
+        default='',
+        metadata={
+            "help": "encode_in_path"
+        },
+    )
+
+    dataset_proc_num : Optional[int] = field(
+        default=32,
+        metadata={
+            "help": "dataset_proc_num "
+        },
+    )
+
+    train_n_passages : Optional[int] = field(
+        default=16,
+        metadata={
+            "help": "train_n_passages "
+        },
+    )
+    
+    passage_field_separator : str = field(
+        default='sep_token',
+        metadata={
+            "help": "passage_field_separator"
+        },
+    )
+
 
 @dataclass
 class TevatronTrainingArguments(TrainingArguments):

@@ -18,12 +18,13 @@ logger = logging.getLogger(__name__)
 
 class HFTrainDataset:
     def __init__(self, tokenizer: PreTrainedTokenizer, data_args: DataArguments, cache_dir: str):
-        data_files = data_args.train_path
-        if data_files:
-            data_files = {data_args.dataset_split: data_files}
+        # data_files = data_args.train_path
+        # if data_files:
+        #     data_files = {data_args.dataset_split: data_files}
         self.dataset = load_dataset(data_args.dataset_name,
-                                    data_args.dataset_language,
-                                    data_files=data_files, cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
+                                    # data_args.dataset_language,
+                                    # data_files=data_files,
+                                    cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
         self.preprocessor = TrainPreProcessor
         self.tokenizer = tokenizer
         self.q_max_len = data_args.q_max_len
@@ -79,8 +80,9 @@ class HFQueryDataset:
         if data_files:
             data_files = {data_args.dataset_split: data_files}
         self.dataset = load_dataset(data_args.dataset_name,
-                                    data_args.dataset_language,
-                                    data_files=data_files, cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
+                                    # data_args.dataset_language,
+                                    data_files=data_files,
+                                    cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
         self.preprocessor = QueryPreProcessor
         self.tokenizer = tokenizer
         self.q_max_len = data_args.q_max_len
