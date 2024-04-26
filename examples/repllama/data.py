@@ -122,7 +122,7 @@ class HFCorpusDataset:
         if data_files:
             data_files = {data_args.dataset_split: data_files}
         self.dataset = load_dataset(data_args.dataset_name,
-                                    data_args.dataset_language,
+                                    # data_args.dataset_language,
                                     data_files=data_files, cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
         script_prefix = data_args.dataset_name
         if script_prefix.endswith('-corpus'):

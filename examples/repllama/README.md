@@ -13,7 +13,7 @@ For the following steps, we use SciFact in BEIR as example.
 mkdir beir_embedding_scifact
 for s in 0 1 2 3;
 do
-CUDA_VISIBLE_DEVICES=1 python encode.py \
+CUDA_VISIBLE_DEVICES=0 python encode.py \
   --output_dir=temp \
   --model_name_or_path castorini/repllama-v1-7b-lora-passage \
   --tokenizer_name meta-llama/Llama-2-7b-hf \
@@ -30,7 +30,7 @@ done
 
 ### Encode queries
 ```
-CUDA_VISIBLE_DEVICES=6 python encode.py \
+CUDA_VISIBLE_DEVICES=0 python encode.py \
   --output_dir=temp \
   --model_name_or_path castorini/repllama-v1-7b-lora-passage \
   --tokenizer_name meta-llama/Llama-2-7b-hf \
