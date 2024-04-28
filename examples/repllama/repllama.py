@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch import Tensor
-from transformers import LlamaModel, PreTrainedModel
+from transformers import LlamaModel, PreTrainedModel, BitsAndBytesConfig
 import logging
 from peft import LoraConfig, get_peft_model, PeftModel, TaskType
 from tevatron.retriever.modeling.encoder import EncoderModel
@@ -17,8 +17,8 @@ class RepLLaMA(EncoderModel):
                  untie_encoder: bool = False,
                  negatives_x_device: bool = False
                  ):
-        super().__init__(lm_q)
-        self.config = lm_q.config
+        super().__init__(lm_p)
+        self.config = lm_p.config
 
     def encode_passage(self, psg):
         if psg is None:
@@ -104,7 +104,13 @@ class RepLLaMA(EncoderModel):
             **hf_kwargs,
     ):
         config = LoraConfig.from_pretrained(model_name_or_path)
-        base_model = LlamaModel.from_pretrained(config.base_model_name_or_path)
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16
+        )
+        base_model = LlamaModel.from_pretrained(config.base_model_name_or_path, quantization_config=bnb_config)
         if base_model.config.pad_token_id is None:
             base_model.config.pad_token_id = 0
         hf_model = PeftModel.from_pretrained(base_model, model_name_or_path, config=config, is_trainable=True)
@@ -115,6 +121,7 @@ class RepLLaMA(EncoderModel):
             pooler=None,
             untie_encoder=False
         )
+        model.lm_p = hf_model
         return model
 
     def save(self, output_dir: str):

@@ -121,7 +121,11 @@ class HFCorpusDataset:
         # data_files = data_args.encode_in_path
         # if data_files:
         #     data_files = {data_args.dataset_split: data_files}
-        self.dataset = load_dataset(data_args.dataset_name,
+        if ":scifact" in data_args.dataset_name:
+            self.dataset = load_dataset("json", data_files="scifact.jsonl",
+                                    cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
+        else:
+            self.dataset = load_dataset(data_args.dataset_name,
                                     # data_args.dataset_language,
                                     # data_files=data_files,
                                     cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
@@ -133,6 +137,8 @@ class HFCorpusDataset:
         self.p_max_len = data_args.p_max_len
         self.proc_num = data_args.dataset_proc_num
         self.separator = getattr(self.tokenizer, data_args.passage_field_separator, data_args.passage_field_separator)
+        if self.separator is None:
+            self.separator = ' '
 
     def process(self, shard_num=1, shard_idx=0):
         self.dataset = self.dataset.shard(shard_num, shard_idx)
