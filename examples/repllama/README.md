@@ -61,7 +61,7 @@ python -m tevatron.utils.format.convert_result_to_trec --input beir_embedding_sc
 
 ### Evaluate
 ```
-python -m pyserini.eval.trec_eval -c -mrecall.100 -mndcg_cut.10 beir-v1.0.0-scifact-test beir_embedding_scifact/rank.scifact.trec
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 python -m pyserini.eval.trec_eval -c -mrecall.100 -mndcg_cut.10 beir-v1.0.0-scifact-test beir_embedding_scifact/rank.scifact.trec
 ```
 
 ## Train RepLLaMA from scratch
