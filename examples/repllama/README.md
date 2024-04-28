@@ -44,7 +44,7 @@ CUDA_VISIBLE_DEVICES=0 python encode.py \
 
 ### Search
 
-python -m tevatron.faiss_retriever \
+python -m tevatron.retriever.driver.search \
     --query_reps beir_embedding_scifact/queries_scifact.pkl \
     --passage_reps 'beir_embedding_scifact/corpus_scifact.*.pkl' \
     --depth 100 \
