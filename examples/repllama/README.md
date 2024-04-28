@@ -8,6 +8,21 @@ In this example, we show how to use RepLLaMA to run zeroshot evaluation on BEIR,
 ## Inference with RepLLaMA
 For the following steps, we use SciFact in BEIR as example.
 
+### Increase swap for CPU-running encoding using full model
+The minimum requirement is 32GB memory + 16GB swap.
+To create an additional 8GB swap file (will be removed after system reboot):
+```
+sudo fallocate -l 8G /swapfile
+sudo dd if=/dev/zero of=/swapfile bs=1024 count=8388608
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo swapon --show
+sudo free -h
+```
+
+Encoding a scifact passage requires 130s.
+
 ### Encode corpus
 ```
 mkdir beir_embedding_scifact

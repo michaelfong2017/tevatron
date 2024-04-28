@@ -110,7 +110,8 @@ class RepLLaMA(EncoderModel):
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=torch.bfloat16
         )
-        base_model = LlamaModel.from_pretrained(config.base_model_name_or_path, quantization_config=bnb_config)
+        base_model = LlamaModel.from_pretrained(config.base_model_name_or_path)
+        # base_model = LlamaModel.from_pretrained(config.base_model_name_or_path, quantization_config=bnb_config)
         if base_model.config.pad_token_id is None:
             base_model.config.pad_token_id = 0
         hf_model = PeftModel.from_pretrained(base_model, model_name_or_path, config=config, is_trainable=True)

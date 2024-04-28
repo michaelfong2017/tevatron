@@ -84,21 +84,21 @@ def main():
     )
     encoded = []
     lookup_indices = []
-    model = model.to(training_args.device)
+    # model = model.to(training_args.device)
     model.eval()
 
     for (batch_ids, batch) in tqdm(encode_loader):
         lookup_indices.extend(batch_ids)
         with torch.cuda.amp.autocast() if training_args.fp16 else nullcontext():
             with torch.no_grad():
-                for k, v in batch.items():
-                    batch[k] = v.to(training_args.device)
+                # for k, v in batch.items():
+                #     batch[k] = v.to(training_args.device)
                 if data_args.encode_is_qry:
                     model_output = model(query=batch)
-                    encoded.append(model_output.q_reps.cpu().detach().numpy())
+                    encoded.append(model_output.q_reps.detach().numpy())
                 else:
                     model_output = model(passage=batch)
-                    encoded.append(model_output.p_reps.cpu().detach().numpy())
+                    encoded.append(model_output.p_reps.detach().numpy())
 
     encoded = np.concatenate(encoded)
 
