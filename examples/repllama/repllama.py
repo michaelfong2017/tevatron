@@ -122,6 +122,7 @@ class RepLLaMA(EncoderModel):
             untie_encoder=False
         )
         model.lm_p = hf_model
+        model.lm_q = hf_model
         return model
 
     def save(self, output_dir: str):

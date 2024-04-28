@@ -77,11 +77,17 @@ class TrainPreProcessor:
 class HFQueryDataset:
     def __init__(self, tokenizer: PreTrainedTokenizer, data_args: DataArguments, cache_dir: str):
         data_files = data_args.encode_in_path
-        if data_files:
+        if data_files and not data_files == '':
             data_files = {data_args.dataset_split: data_files}
-        self.dataset = load_dataset(data_args.dataset_name,
+        if data_args.dataset_name == "Tevatron/beir:scifact/test":
+            self.dataset = load_dataset(data_args.dataset_name.split(":")[0],
+                                    name="scifact",
+                                    split="test",
+                                    cache_dir=cache_dir, use_auth_token=True)
+        else:
+            self.dataset = load_dataset(data_args.dataset_name,
                                     # data_args.dataset_language,
-                                    data_files=data_files,
+                                    # data_files=data_files,
                                     cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
         self.preprocessor = QueryPreProcessor
         self.tokenizer = tokenizer
